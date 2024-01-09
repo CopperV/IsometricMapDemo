@@ -5,13 +5,13 @@ namespace _Demo
     public class CameraController : MonoBehaviour
     {
         [SerializeField]
-        private readonly Camera DefaultCamera;
+        private Camera DefaultCamera;
         [SerializeField]
-        private readonly Transform DefaultPivot;
+        private Transform DefaultPivot;
         [SerializeField]
-        private readonly Vector3 DefaultPosition;
+        private Vector3 DefaultPosition;
         [SerializeField]
-        private readonly Vector3 DefaultRotation;
+        private Vector3 DefaultRotation;
 
         [HideInInspector]
         public Camera Camera;
@@ -22,9 +22,28 @@ namespace _Demo
         [HideInInspector]
         public Vector3 Rotation;
 
+        private void OnValidate()
+        {
+            ResetAll();
+            UpdateCamera();
+        }
+
         public void OnEnable()
         {
             ResetAll();
+            UpdateCamera();
+        }
+
+        private void Update()
+        {
+            UpdateCamera();
+        }
+
+        public void UpdateCamera()
+        {
+            Camera.transform.localPosition = Position;
+            Pivot.transform.rotation = Quaternion.Euler(Rotation);
+            Pivot.transform.localPosition = Vector3.zero;
         }
 
         public void ResetAll()

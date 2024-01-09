@@ -12,6 +12,8 @@ namespace _Demo
         public List<AllyBotController> AllyBotControllers = new List<AllyBotController>();
         public List<EnemyBotController> EnemyBotControllers = new List<EnemyBotController>();
 
+        private CameraController CameraController;
+
         private void Awake()
         {
             if(Inst != null)
@@ -25,7 +27,8 @@ namespace _Demo
 
         public void OnEnable()
         {
-            
+            CameraController = GameObject.FindGameObjectWithTag("MainPivot").GetComponent<CameraController>();
+            CameraController.HookPivot(PlayerController.transform);
         }
 
         public void Start()
