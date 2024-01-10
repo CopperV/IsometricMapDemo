@@ -26,7 +26,7 @@ namespace _Demo
 
         private void Update()
         {
-            
+            StateMachine.CurrentState.Update();
         }
 
         protected virtual void Initialize()
