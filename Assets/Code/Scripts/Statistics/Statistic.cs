@@ -7,7 +7,7 @@ namespace _Demo
     public class Statistic
     {
         [SerializeField]
-        public StatisticRecipe Stat {  get; private set; }
+        public StatisticRecipe Stat;
         [SerializeField]
         public float Value;
     }

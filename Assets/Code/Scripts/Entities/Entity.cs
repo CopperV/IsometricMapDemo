@@ -4,20 +4,43 @@ using UnityEngine;
 
 namespace _Demo
 {
-    [Serializable]
-    public class Entity
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Rigidbody))]
+    public class Entity : MonoBehaviour
     {
+        public string Id { get; private set; } = Guid.NewGuid().ToString();
         [SerializeField]
-        public string Id {  get; private set; }
+        public Animator Animator;
         [SerializeField]
-        public Animator Animator { get; private set; }
+        public Rigidbody Rigidbody;
         [SerializeField]
-        public Rigidbody Rigidbody { get; private set; }
-        [SerializeField]
-        public StatisticContainer Statistics { get; private set; }
+        public StatisticContainer Statistics;
 
-        public readonly EntityStateMachine StateMachine;
-        public Dictionary<string, EntityState> States { get; private set; }
+        public EntityStateMachine StateMachine {  get; private set; }
+        public Dictionary<string, EntityState> States { get; private set; } = new Dictionary<string, EntityState>();
+
+        private void Awake()
+        {
+            Initialize();
+        }
+
+        private void Update()
+        {
+            
+        }
+
+        protected virtual void Initialize()
+        {
+            StateMachine = new EntityStateMachine();
+
+            EntityState idleState = new IdleState(StateMachine, this);
+            EntityState runState = new RunState(StateMachine, this);
+
+            StateMachine.Initialize(idleState);
+
+            States.Add(idleState.AnimBoolName, idleState);
+            States.Add(runState.AnimBoolName, runState);
+        }
 
     }
 }
