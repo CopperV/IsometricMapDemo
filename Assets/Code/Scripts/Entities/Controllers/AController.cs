@@ -6,9 +6,9 @@ namespace _Demo
     public abstract class AController : MonoBehaviour, IMovable
     {
         [SerializeField]
-        public readonly Entity Entity;
+        public Entity Entity;
         [SerializeField]
-        public readonly NavMeshAgent Agent;
+        public NavMeshAgent Agent;
 
         public abstract void ApplyMovement();
 

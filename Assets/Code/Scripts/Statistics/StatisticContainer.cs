@@ -9,7 +9,7 @@ namespace _Demo
     public class StatisticContainer
     {
         [SerializeField]
-        public List<Statistic> Statistics {  get; private set; }
+        public List<Statistic> Statistics;
 
         public Statistic GetStatistic(string Id) => Statistics.Find(Stat => Stat.Stat.Id.Equals(Id));
     }

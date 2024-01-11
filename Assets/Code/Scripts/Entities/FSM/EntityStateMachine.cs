@@ -11,6 +11,7 @@ namespace _Demo
         public void Initialize(EntityState State)
         {
             CurrentState = State;
+            State.Enter();
         }
 
         public void Change(EntityState NewState)
