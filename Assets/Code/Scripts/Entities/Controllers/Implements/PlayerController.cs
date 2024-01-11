@@ -28,6 +28,16 @@ namespace _Demo
             PlayerInputs.PlayerActions.RightClick.performed += OnRightClick;
         }
 
+        private void Start()
+        {
+            Statistic MovementSpeed = Entity.Statistics.GetStatistic("MovementSpeed");
+            if (MovementSpeed != null)
+                Agent.speed = MovementSpeed.Value;
+            Statistic Agility = Entity.Statistics.GetStatistic("Agility");
+            if (Agility != null)
+                Agent.angularSpeed = Agility.Value;
+        }
+
         private void OnDisable()
         {
             PlayerInputs.Disable();

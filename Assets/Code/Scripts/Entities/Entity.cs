@@ -22,6 +22,7 @@ namespace _Demo
         private void Awake()
         {
             Initialize();
+            Statistics.Statistics.ForEach(Stat => Stat.GenerateRandomValue());
         }
 
         private void Update()
