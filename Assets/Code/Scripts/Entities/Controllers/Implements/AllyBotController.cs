@@ -6,26 +6,43 @@ namespace _Demo
 {
     public class AllyBotController : ABotController
     {
+        [HideInInspector]
         public PlayerController Owner;
+
+        private void Start()
+        {
+            Statistic MovementSpeed = Entity.Statistics.GetStatistic("MovementSpeed");
+            if (MovementSpeed != null)
+                Agent.speed = MovementSpeed.Value;
+            Statistic Agility = Entity.Statistics.GetStatistic("Agility");
+            if (Agility != null)
+                Agent.angularSpeed = Agility.Value;
+            Agent.stoppingDistance = 5;
+        }
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override void ApplyMovement()
         {
-            throw new System.NotImplementedException();
+            Agent.destination = Owner.Agent.destination;
         }
 
         public override void StopMovement()
         {
-            throw new System.NotImplementedException();
+            Agent.isStopped = true;
         }
 
         public override void OnSignal(string Signal)
         {
-            throw new System.NotImplementedException();
+            switch(Signal.ToLower())
+            {
+                case "follow":
+                    ApplyMovement();
+                    break;
+            }
         }
 
     }

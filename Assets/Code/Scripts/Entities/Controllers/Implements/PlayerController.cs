@@ -19,6 +19,7 @@ namespace _Demo
         private void Awake()
         {
             PlayerInputs = new PlayerInputs();
+            Allies.ForEach(Ally => Ally.Owner = this);
         }
 
         public void OnEnable()
@@ -73,6 +74,7 @@ namespace _Demo
             {
                 Destination = hit.point;
                 Agent.destination = Destination;
+                Allies.ForEach(Ally => Ally.OnSignal("follow"));
             }
         }
 
