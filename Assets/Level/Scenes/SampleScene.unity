@@ -23114,6 +23114,7 @@ MonoBehaviour:
   - {fileID: 871415844}
   - {fileID: 577264733}
   - {fileID: 840239007}
+  ClickEffect: {fileID: 4543287929849915997, guid: 75a803258a75db44b95dfe0b092e88a8, type: 3}
 --- !u!114 &1957719579
 MonoBehaviour:
   m_ObjectHideFlags: 0

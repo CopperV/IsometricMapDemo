@@ -16,6 +16,9 @@ namespace _Demo
 
         private ISelectable SelectedObject;
 
+        [SerializeField]
+        private ParticleSystem ClickEffect;
+
         private void Awake()
         {
             PlayerInputs = new PlayerInputs();
@@ -100,6 +103,9 @@ namespace _Demo
                 Destination = hit.point;
                 Agent.destination = Destination;
                 Allies.ForEach(Ally => Ally.OnSignal("follow"));
+
+                ParticleSystem effect = Instantiate(ClickEffect, Destination + new Vector3(0, 0.1f, 0), ClickEffect.transform.rotation);
+                Destroy(effect, 1f);
             }
         }
 
