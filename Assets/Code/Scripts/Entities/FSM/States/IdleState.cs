@@ -13,7 +13,7 @@ namespace _Demo
         public IdleState(EntityStateMachine stateMachine, Entity entity) : base("IdleState", stateMachine, entity)
         {
             AController controller;
-            if (controller = entity.GetComponent<AController>()){
+            if (controller = entity.GetComponentInParent<AController>()){
                 Agent = controller.Agent;
             }
         }

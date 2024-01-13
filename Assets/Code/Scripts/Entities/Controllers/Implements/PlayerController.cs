@@ -69,13 +69,10 @@ namespace _Demo
 
             RaycastHit hit;
 
-            Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, -10);
-            Vector3 hitPosition = mousePosition + new Vector3(0, 0, 35);
-            Vector3 origin = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector3 point = Camera.main.ScreenToWorldPoint(hitPosition);
-            Vector3 dir = (point - origin);
+            Vector3 srcPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            Ray ray = Camera.main.ScreenPointToRay(srcPoint);
 
-            if (Physics.Raycast(origin, dir, out hit, 1000, LayerMask))
+            if (Physics.Raycast(ray, out hit, 1000, LayerMask))
             {
                 Transform transform = hit.transform;
                 ISelectable target;
@@ -96,13 +93,10 @@ namespace _Demo
         {
             RaycastHit hit;
 
-            Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, -10);
-            Vector3 hitPosition = mousePosition + new Vector3(0, 0, 35);
-            Vector3 origin = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector3 point = Camera.main.ScreenToWorldPoint(hitPosition);
-            Vector3 dir = (point - origin);
+            Vector3 srcPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            Ray ray = Camera.main.ScreenPointToRay(srcPoint);
 
-            if (Physics.Raycast(origin, dir, out hit, 1000, LayerMask))
+            if (Physics.Raycast(ray, out hit, 1000, LayerMask))
             {
                 Destination = hit.point;
                 Agent.destination = Destination;
