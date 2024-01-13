@@ -14,6 +14,8 @@ namespace _Demo
         public Vector3 Destination;
         public List<AllyBotController> Allies = new List<AllyBotController>();
 
+        private ISelectable SelectedObject;
+
         private void Awake()
         {
             PlayerInputs = new PlayerInputs();
@@ -51,6 +53,31 @@ namespace _Demo
         public void OnRightClick(CallbackContext ctx)
         {
             ApplyMovement();
+
+            if(SelectedObject != null)
+            {
+                SelectedObject.Unselect(gameObject);
+                SelectedObject = null;
+            }
+
+            RaycastHit hit;
+
+            Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, -10);
+            Vector3 hitPosition = mousePosition + new Vector3(0, 0, 35);
+            Vector3 origin = Camera.main.ScreenToWorldPoint(mousePosition);
+            Vector3 point = Camera.main.ScreenToWorldPoint(hitPosition);
+            Vector3 dir = (point - origin);
+
+            if (Physics.Raycast(origin, dir, out hit, 1000, LayerMask))
+            {
+                Transform transform = hit.transform;
+                ISelectable target;
+                if (!transform.TryGetComponent<ISelectable>(out target))
+                    return;
+                
+                SelectedObject = target;
+                SelectedObject.Select(gameObject);
+            }
         }
 
         public override void Update()
