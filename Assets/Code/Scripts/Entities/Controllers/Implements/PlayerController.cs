@@ -8,10 +8,8 @@ namespace _Demo
 {
     public class PlayerController : AController
     {
-        [SerializeField]
-        private PlayerInputs PlayerInputs;
-        [SerializeField]
-        private LayerMask LayerMask;
+        public PlayerInputs PlayerInputs;
+        public LayerMask LayerMask;
 
         public Vector3 Destination;
         public List<AllyBotController> Allies = new List<AllyBotController>();
