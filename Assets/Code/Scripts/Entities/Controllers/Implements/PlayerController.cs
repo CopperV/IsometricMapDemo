@@ -54,6 +54,12 @@ namespace _Demo
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
             ApplyMovement();
+
+            if (SelectedObject != null)
+            {
+                SelectedObject.Unselect(gameObject);
+                SelectedObject = null;
+            }
         }
         public void OnRightClick(CallbackContext ctx)
         {
@@ -86,7 +92,10 @@ namespace _Demo
 
         public override void Update()
         {
-            //throw new System.NotImplementedException();
+            if (!Agent.velocity.Equals(Vector3.zero))
+            {
+                Allies.ForEach(Ally => Ally.OnSignal("follow"));
+            }
         }
 
         public override void ApplyMovement()

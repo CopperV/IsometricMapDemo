@@ -27,7 +27,7 @@ namespace _Demo
 
         public override void ApplyMovement()
         {
-            Agent.destination = Owner.Agent.destination;
+            Agent.destination = Owner.transform.position;
         }
 
         public override void StopMovement()

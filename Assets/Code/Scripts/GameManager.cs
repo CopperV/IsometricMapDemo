@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Demo
 {
@@ -27,14 +29,13 @@ namespace _Demo
 
         public void OnEnable()
         {
-
             CameraController = GameObject.FindGameObjectWithTag("MainPivot").GetComponent<CameraController>();
-            CameraController.HookPivot(PlayerController.transform);
         }
 
         public void Start()
         {
-            
+            List<Button> buttons = UIManager.Inst.CharactersUI.GetComponentsInChildren<Button>().ToList();
+            buttons[Random.Range(0, buttons.Count)].onClick.Invoke();
         }
 
         public void Update()
@@ -45,12 +46,6 @@ namespace _Demo
         public void OnDisable()
         {
             
-        }
-
-        public void OnExit()
-        {
-            Debug.Log("EXIT");
-            Application.Quit();
         }
 
         public void ChangeCharacter(GameObject Object)
@@ -73,6 +68,7 @@ namespace _Demo
             newPlayer.LayerMask = PlayerController.LayerMask;
             newPlayer.Destination = PlayerController.Destination;
             newPlayer.Agent.stoppingDistance = 0;
+            newPlayer.Agent.destination = newPlayer.transform.position;
             newPlayer.Allies = PlayerController.Allies;
             newPlayer.SelectedObject = PlayerController.SelectedObject;
             newPlayer.ClickEffect = PlayerController.ClickEffect;
