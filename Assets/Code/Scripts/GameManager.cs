@@ -50,6 +50,7 @@ namespace _Demo
 
         public void ChangeCharacter(GameObject Object)
         {
+            //Check if object is an Ally
             AllyBotController controller;
             if (!Object.TryGetComponent(out controller))
                 return;
@@ -57,11 +58,15 @@ namespace _Demo
             if (!AllyBotControllers.Contains(controller))
                 return;
 
+            //Creating new component (Ally) for present player
+            //And copy needed values from old player to new ally
             AllyBotController newAlly = PlayerController.AddComponent<AllyBotController>();
             newAlly.Entity = PlayerController.Entity;
             newAlly.Agent = PlayerController.Agent;
             newAlly.Agent.stoppingDistance = 5;
             
+            //Creating new component (Player) for new player / old ally
+            //And copy needed values from old ally controller and present player controller
             PlayerController newPlayer = controller.AddComponent<PlayerController>();
             newPlayer.Entity = controller.Entity;
             newPlayer.Agent = controller.Agent;
@@ -73,18 +78,24 @@ namespace _Demo
             newPlayer.SelectedObject = PlayerController.SelectedObject;
             newPlayer.ClickEffect = PlayerController.ClickEffect;
                 
+            //Changing collections in GameMamager to fit to new situation
             newPlayer.Allies.Remove(controller);
             newPlayer.Allies.Add(newAlly);
 
             AllyBotControllers.Remove(controller);
             AllyBotControllers.Add(newAlly);
 
+            //Changing allies owner to new player
             newPlayer.Allies.ForEach(Ally => Ally.Owner = newPlayer);
 
+            //Remove old components
             Destroy(newAlly.GetComponent<PlayerController>());
             Destroy(newPlayer.GetComponent<AllyBotController>());
 
+            //Set GameManager PlayerController to new one
             PlayerController = newPlayer;
+
+            //Hook camera to new player
             CameraController = GameObject.FindGameObjectWithTag("MainPivot").GetComponent<CameraController>();
             CameraController.HookPivot(PlayerController.transform);
         }
