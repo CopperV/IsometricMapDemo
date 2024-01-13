@@ -13,7 +13,7 @@ namespace _Demo
         public RunState(EntityStateMachine stateMachine, Entity entity) : base("RunState", stateMachine, entity)
         {
             AController controller;
-            if (controller = entity.GetComponent<AController>())
+            if (controller = entity.GetComponentInParent<AController>())
             {
                 Agent = controller.Agent;
             }

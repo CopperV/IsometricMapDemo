@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -9,16 +8,13 @@ namespace _Demo
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager Inst;
+        public static GameManager Inst {  get; private set; }
 
         public PlayerController PlayerController;
         public List<AllyBotController> AllyBotControllers = new List<AllyBotController>();
         public List<EnemyBotController> EnemyBotControllers = new List<EnemyBotController>();
 
         private CameraController CameraController;
-
-        public Outline Outline;
-        public GameObject CharactersUI;
 
         private void Awake()
         {
@@ -33,15 +29,13 @@ namespace _Demo
 
         public void OnEnable()
         {
-            OutlineImage(CharactersUI.transform.GetChild(0).GetChild(0).gameObject);
-
             CameraController = GameObject.FindGameObjectWithTag("MainPivot").GetComponent<CameraController>();
-            CameraController.HookPivot(PlayerController.transform);
         }
 
         public void Start()
         {
-            
+            List<Button> buttons = UIManager.Inst.CharactersUI.GetComponentsInChildren<Button>().ToList();
+            buttons[Random.Range(0, buttons.Count)].onClick.Invoke();
         }
 
         public void Update()
@@ -52,12 +46,6 @@ namespace _Demo
         public void OnDisable()
         {
             
-        }
-
-        public void OnExit()
-        {
-            Debug.Log("EXIT");
-            Application.Quit();
         }
 
         public void ChangeCharacter(GameObject Object)
@@ -80,9 +68,11 @@ namespace _Demo
             newPlayer.LayerMask = PlayerController.LayerMask;
             newPlayer.Destination = PlayerController.Destination;
             newPlayer.Agent.stoppingDistance = 0;
+            newPlayer.Agent.destination = newPlayer.transform.position;
             newPlayer.Allies = PlayerController.Allies;
-            newPlayer.PlayerInputs = PlayerController.PlayerInputs;
-
+            newPlayer.SelectedObject = PlayerController.SelectedObject;
+            newPlayer.ClickEffect = PlayerController.ClickEffect;
+                
             newPlayer.Allies.Remove(controller);
             newPlayer.Allies.Add(newAlly);
 
@@ -97,18 +87,6 @@ namespace _Demo
             PlayerController = newPlayer;
             CameraController = GameObject.FindGameObjectWithTag("MainPivot").GetComponent<CameraController>();
             CameraController.HookPivot(PlayerController.transform);
-        }
-
-        public void OutlineImage(GameObject Image)
-        {
-            CharactersUI.transform.GetChild(0)
-                .GetComponentsInChildren<Outline>()
-                .ToList()
-                .ForEach(Outline => Destroy(Outline));
-
-            Outline _Outline = Image.AddComponent<Outline>();
-            _Outline.effectColor = Outline.effectColor;
-            _Outline.effectDistance = Outline.effectDistance;
         }
 
     }

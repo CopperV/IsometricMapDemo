@@ -5,14 +5,11 @@ using UnityEngine;
 namespace _Demo
 {
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(Rigidbody))]
     public class Entity : MonoBehaviour
     {
         public string Id { get; private set; } = Guid.NewGuid().ToString();
         [SerializeField]
         public Animator Animator;
-        [SerializeField]
-        public Rigidbody Rigidbody;
         [SerializeField]
         public StatisticContainer Statistics;
 
