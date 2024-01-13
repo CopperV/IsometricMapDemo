@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -14,10 +15,9 @@ namespace _Demo
         public Vector3 Destination;
         public List<AllyBotController> Allies = new List<AllyBotController>();
 
-        private ISelectable SelectedObject;
+        public ISelectable SelectedObject;
 
-        [SerializeField]
-        private ParticleSystem ClickEffect;
+        public ParticleSystem ClickEffect;
 
         private void Awake()
         {
@@ -44,17 +44,21 @@ namespace _Demo
 
         private void OnDisable()
         {
-            PlayerInputs.Disable();
             PlayerInputs.PlayerActions.LeftClick.performed -= OnLeftClick;
             PlayerInputs.PlayerActions.RightClick.performed -= OnRightClick;
+            PlayerInputs.Disable();
         }
 
         public void OnLeftClick(CallbackContext ctx)
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
             ApplyMovement();
         }
         public void OnRightClick(CallbackContext ctx)
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
             ApplyMovement();
 
             if(SelectedObject != null)
@@ -105,7 +109,7 @@ namespace _Demo
                 Allies.ForEach(Ally => Ally.OnSignal("follow"));
 
                 ParticleSystem effect = Instantiate(ClickEffect, Destination + new Vector3(0, 0.1f, 0), ClickEffect.transform.rotation);
-                Destroy(effect, 1f);
+                Destroy(effect.gameObject, 1f);
             }
         }
 
